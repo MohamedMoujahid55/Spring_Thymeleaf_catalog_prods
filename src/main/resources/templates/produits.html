@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Produits</title>
+<link rel="stylesheet" type="text/css"
+	href="../static/css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}" />
+</head>
+<body>
+<div th:insert="navbar :: navbar"></div>
+	<br/>
+	<div class="container">
+		<form th:action="@{index}" method="get">
+			<label>Mot clé : </label>
+			<input type="text" name="mc" th:value="${mc}"/>
+			<button type="submit" class="btn btn-primary">Chercher</button>
+		</form>
+	</div>
+	<br/>
+	<div class="container">
+		<h3>Liste des produits</h3>
+		<table class="table ">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Désignation</th>
+					<th>Prix</th>
+					<th>Quantité</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="p:${listProduits}">
+					<td th:text="${p.id}"></td>
+					<td th:text="${p.designation}"></td>
+					<td th:text="${p.prix}"></td>
+					<td th:text="${p.quantite}"></td>
+					<td ><a 
+							onClick="return confirm('Etes vous sûr de supprimer le produit ?')"
+							th:href="@{delete(id=${p.id})}" style="color:red">Delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="container">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<li th:class="${pageCourante}==${status.index}?'page-item active':'page-item'" th:each="pa,status:${pages}">
+					<a th:href="@{index(page=${status.index},size=${size})}" 
+					   class="page-link" 
+					   th:text="${status.index}">Previous</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</body>
+</html>
